@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../ui/style.css">
+  <link rel="stylesheet" href="options.css">
+  <title>Sesame — Settings</title>
+</head>
+<body>
+  <!-- Locked gate -->
+  <section id="lock-gate" class="gate" hidden>
+    <div class="card">
+      <h2>🔒 Vault locked</h2>
+      <p class="muted">Unlock to manage your codes.</p>
+      <form id="unlock-form">
+        <input type="password" id="passphrase" placeholder="Passphrase" autocomplete="current-password">
+        <button type="submit" class="primary">Unlock</button>
+      </form>
+      <p id="unlock-error" class="error-text" hidden></p>
+    </div>
+  </section>
+
+  <div id="page" hidden>
+    <nav>
+      <div class="brand">
+        <span class="brand-mark">S</span>
+        <span>Sesame</span>
+      </div>
+      <a href="#accounts" data-nav>Codes <span id="nav-count" class="count"></span></a>
+      <a href="#import" data-nav>Import</a>
+      <a href="#add" data-nav>Add manually</a>
+      <a href="#export" data-nav>Export &amp; backup</a>
+      <a href="#security" data-nav>Security</a>
+      <a href="#behaviour" data-nav>Behaviour</a>
+    </nav>
+
+    <main>
+      <section id="welcome-banner" class="card accent" hidden>
+        <h2>Welcome 👋</h2>
+        <p>Bring your codes over from Google Authenticator, then right-click any 2FA box and choose
+          <strong>Use OTP code</strong>.</p>
+        <button class="primary" data-goto="#import">Import my codes</button>
+      </section>
+
+      <!-- ---------------------------------------------------------- codes -->
+      <section id="accounts" class="card">
+        <div class="card-head">
+          <h2>Your codes</h2>
+          <input type="search" id="account-search" placeholder="Filter…" spellcheck="false">
+        </div>
+        <div id="account-list"></div>
+      </section>
+
+      <!-- --------------------------------------------------------- import -->
+      <section id="import" class="card">
+        <h2>Import</h2>
+        <p class="muted">
+          In Google Authenticator: <strong>⋮ → Transfer accounts → Export accounts</strong>.
+          Scan each QR code it shows and paste the <code>otpauth-migration://</code> text below —
+          or drop the QR screenshots straight in.
+        </p>
+
+        <div id="drop-zone">
+          <input type="file" id="file-input" accept=".txt,.text,image/*" multiple hidden>
+          <p><strong>Drop QR images or a .txt export here</strong></p>
+          <p class="muted small">or <button id="browse-btn" class="ghost">choose files</button> · you can also paste (Ctrl+V) a screenshot</p>
+          <p id="qr-support" class="muted small"></p>
+        </div>
+
+        <label for="import-text">Paste otpauth-migration:// or otpauth:// URIs</label>
+        <textarea id="import-text" rows="5" placeholder="otpauth-migration://offline?data=…"></textarea>
+
+        <div class="actions">
+          <button id="parse-btn" class="primary">Preview import</button>
+          <span id="import-status" class="muted small"></span>
+        </div>
+
+        <div id="import-preview" hidden>
+          <div class="card-head tight">
+            <h3>Found <span id="preview-count">0</span> codes</h3>
+            <div>
+              <button id="select-all" class="ghost">Select all</button>
+              <button id="select-none" class="ghost">None</button>
+            </div>
+          </div>
+          <div id="preview-list"></div>
+          <div class="actions">
+            <button id="confirm-import" class="primary">Import selected</button>
+            <button id="cancel-import" class="ghost">Cancel</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------ add -->
+      <section id="add" class="card">
+        <h2>Add manually</h2>
+        <p class="muted">Paste a setup key from a site that shows you one instead of a QR code.</p>
+        <form id="add-form">
+          <div class="grid-2">
+            <div>
+              <label for="add-issuer">Service</label>
+              <input type="text" id="add-issuer" placeholder="GitHub" required>
+            </div>
+            <div>
+              <label for="add-account">Account</label>
+              <input type="text" id="add-account" placeholder="you@example.com">
+            </div>
+          </div>
+          <label for="add-secret">Secret key</label>
+          <input type="text" id="add-secret" placeholder="JBSW Y3DP EHPK 3PXP" required spellcheck="false">
+          <label for="add-domains">Sites this belongs to (comma separated)</label>
+          <input type="text" id="add-domains" placeholder="github.com" spellcheck="false">
+          <details>
+            <summary>Advanced</summary>
+            <div class="grid-4">
+              <div>
+                <label for="add-type">Type</label>
+                <select id="add-type"><option value="totp">Time (TOTP)</option><option value="hotp">Counter (HOTP)</option></select>
+              </div>
+              <div>
+                <label for="add-algorithm">Algorithm</label>
+                <select id="add-algorithm"><option>SHA1</option><option>SHA256</option><option>SHA512</option></select>
+              </div>
+              <div>
+                <label for="add-digits">Digits</label>
+                <input type="number" id="add-digits" value="6" min="4" max="10">
+              </div>
+              <div>
+                <label for="add-period">Period (s)</label>
+                <input type="number" id="add-period" value="30" min="5" max="300">
+              </div>
+            </div>
+          </details>
+          <div class="actions">
+            <button type="submit" class="primary">Add code</button>
+            <span id="add-status" class="muted small"></span>
+          </div>
+        </form>
+      </section>
+
+      <!-- --------------------------------------------------------- export -->
+      <section id="export" class="card">
+        <h2>Export &amp; backup</h2>
+        <p class="muted">These files contain your secrets in plain text. Store them somewhere safe.</p>
+        <div class="actions">
+          <button id="export-migration">Google Authenticator format</button>
+          <button id="export-otpauth">otpauth:// list</button>
+          <button id="export-json">JSON backup</button>
+          <button id="import-json-btn" class="ghost">Restore JSON backup</button>
+          <input type="file" id="json-input" accept=".json" hidden>
+        </div>
+        <textarea id="export-output" rows="6" readonly hidden></textarea>
+        <div class="actions" id="export-actions" hidden>
+          <button id="copy-export" class="ghost">Copy</button>
+          <button id="download-export" class="ghost">Download</button>
+          <button id="hide-export" class="ghost">Hide</button>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------- security -->
+      <section id="security" class="card">
+        <h2>Security</h2>
+        <div id="enc-off">
+          <p class="muted">Your secrets sit unencrypted in the browser's extension storage. Add a
+            passphrase to encrypt them; you'll be asked for it once per browser session.</p>
+          <form id="enable-enc-form">
+            <div class="grid-2">
+              <div>
+                <label for="new-pass">Passphrase</label>
+                <input type="password" id="new-pass" autocomplete="new-password">
+              </div>
+              <div>
+                <label for="new-pass2">Confirm</label>
+                <input type="password" id="new-pass2" autocomplete="new-password">
+              </div>
+            </div>
+            <p class="warn small">⚠ There is no recovery. If you forget it, your codes are gone —
+              keep an export somewhere safe first.</p>
+            <button type="submit" class="primary">Encrypt vault</button>
+          </form>
+        </div>
+
+        <div id="enc-on" hidden>
+          <p class="ok">🔐 Vault is encrypted.</p>
+          <form id="change-pass-form">
+            <div class="grid-3">
+              <div>
+                <label for="cur-pass">Current passphrase</label>
+                <input type="password" id="cur-pass" autocomplete="current-password">
+              </div>
+              <div>
+                <label for="chg-pass">New passphrase</label>
+                <input type="password" id="chg-pass" autocomplete="new-password">
+              </div>
+              <div>
+                <label for="chg-pass2">Confirm</label>
+                <input type="password" id="chg-pass2" autocomplete="new-password">
+              </div>
+            </div>
+            <div class="actions">
+              <button type="submit" class="primary">Change passphrase</button>
+              <button type="button" id="disable-enc" class="danger">Remove encryption</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <strong>Auto-lock</strong>
+            <div class="muted small">Lock the vault after a period of inactivity.</div>
+          </div>
+          <select id="auto-lock">
+            <option value="0">When the browser closes</option>
+            <option value="5">After 5 minutes</option>
+            <option value="15">After 15 minutes</option>
+            <option value="60">After 1 hour</option>
+          </select>
+        </div>
+
+        <div class="field-row danger-zone">
+          <div>
+            <strong>Delete everything</strong>
+            <div class="muted small">Removes every code and setting from this browser.</div>
+          </div>
+          <button id="wipe-btn" class="danger">Delete all data</button>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------ behaviour -->
+      <section id="behaviour" class="card">
+        <h2>Behaviour</h2>
+        <label class="switch">
+          <input type="checkbox" id="set-chip">
+          <span><strong>Suggest codes on 2FA fields</strong>
+            <div class="muted small">Shows a small chip when you click into a one-time-code box.</div></span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="set-autosubmit">
+          <span><strong>Submit the form after filling</strong>
+            <div class="muted small">Presses the verify button for you. Off by default.</div></span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="set-copy">
+          <span><strong>Also copy the code to the clipboard</strong>
+            <div class="muted small">Handy when a site needs the code twice.</div></span>
+        </label>
+        <div class="field-row">
+          <div>
+            <strong>Keyboard shortcut</strong>
+            <div class="muted small">Fill the best match without touching the mouse.</div>
+          </div>
+          <button id="shortcut-btn" class="ghost">Alt+Shift+O — change</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

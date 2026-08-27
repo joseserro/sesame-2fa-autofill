@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesame — 2FA Autofill for Chrome</title>
+<meta name="description" content="Store your 2FA secrets and fill one-time codes with a right click. Imports straight from a Google Authenticator export. No accounts, no network, no tracking.">
+<link rel="icon" href="img/icon128.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <img class="mark" src="img/icon128.png" alt="">
+    <h1>Sesame</h1>
+    <p>Store your 2FA secrets and fill one-time codes with a right click. Imports straight from a Google Authenticator export.</p>
+    <div class="cta">
+      <a href="https://github.com/joseserro/sesame-2fa-autofill">View on GitHub</a>
+      <a class="ghost" href="privacy.html">Privacy policy</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="wrap">
+  <h2>Right-click, and the code goes in</h2>
+  <p class="lede">The submenu lists only the codes that belong to the site you are on.</p>
+  <div class="shots">
+    <figure>
+      <img src="img/bare-2-right-click.png" alt="A GitHub two-factor prompt with the browser right-click menu open, showing a Use OTP code submenu listing two GitHub accounts.">
+      <figcaption>Two GitHub logins saved? Both are offered, and nothing else is.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Every code, one click away</h2>
+  <p class="lede">Live codes with a countdown. The ones for the site you are on come first.</p>
+  <div class="shots">
+    <figure>
+      <img src="img/bare-1-popup.png" alt="The Sesame toolbar popup listing saved codes with live six-digit values and countdown rings." style="max-width:420px;margin:0 auto">
+    </figure>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Everything else it does</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>A code chip on 2FA fields</h3>
+      <p>Click into a one-time-code box and the right code is already waiting. One click fills it.</p>
+    </div>
+    <div class="card">
+      <h3>Keyboard shortcut</h3>
+      <p><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> fills the best match without touching the mouse.</p>
+    </div>
+    <div class="card">
+      <h3>Toolbar popup</h3>
+      <p>Every code with a live countdown. Click to copy. Codes for the current site sort to the top.</p>
+    </div>
+    <div class="card">
+      <h3>Awkward inputs handled</h3>
+      <p>Plain boxes, <code>contenteditable</code> fields, and the six-separate-digits widgets that break most fillers.</p>
+    </div>
+    <div class="card">
+      <h3>Optional passphrase</h3>
+      <p>AES-256-GCM with a PBKDF2 key. Entered once per browser session, not once per use.</p>
+    </div>
+    <div class="card">
+      <h3>Real backups</h3>
+      <p>Export back to Google Authenticator format, <code>otpauth://</code> URIs, or JSON.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Move in from Google Authenticator</h2>
+  <p class="lede">
+    In Google Authenticator: <strong>⋮ → Transfer accounts → Export accounts</strong>. Paste the
+    <code>otpauth-migration://</code> text it encodes, or drop the QR screenshots straight in.
+  </p>
+  <div class="shots">
+    <figure>
+      <img src="img/bare-3-import.png" alt="The import screen listing six codes found, with three marked ALREADY SAVED and three new ones checked for import.">
+      <figcaption>Codes you already have are spotted and left unchecked. Nothing is saved until you confirm.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>How a code is matched to a site</h2>
+  <p class="lede">Every account carries the list of sites it may be used on.</p>
+  <div class="shots">
+    <figure>
+      <img src="img/bare-4-codes.png" alt="The settings page listing saved codes, each showing the domains it belongs to.">
+    </figure>
+  </div>
+  <div class="note" style="margin-top:22px">
+    <p><strong>If an account has domains, only those domains match it.</strong> A saved GitHub code is
+    offered on <code>github.com</code> and its subdomains — never on <code>githubb.com</code>,
+    <code>github-login.com</code>, or <code>github.com.evil.example</code>. Resemblance to a site's
+    name is never enough to pull a code onto it.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Install</h2>
+  <p class="lede">Not yet on the Chrome Web Store. To run it now:</p>
+  <ol>
+    <li>Download or clone <a href="https://github.com/joseserro/sesame-2fa-autofill">the repository</a></li>
+    <li>Open <code>chrome://extensions</code> and turn on <strong>Developer mode</strong></li>
+    <li>Choose <strong>Load unpacked</strong> and select the folder</li>
+  </ol>
+  <p>The settings page opens on first install so you can bring your codes over.</p>
+</section>
+
+<section class="wrap">
+  <h2>What it never does</h2>
+  <p class="lede">
+    No network requests of any kind. No accounts, no sync service, no analytics, no telemetry, no
+    third-party code. Codes are computed locally with the browser's own WebCrypto. Everything it
+    stores stays in your browser profile.
+  </p>
+  <p>The full details are in the <a href="privacy.html">privacy policy</a>.</p>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <span>Sesame — 2FA Autofill</span>
+  <span class="spacer"></span>
+  <a href="https://github.com/joseserro/sesame-2fa-autofill">GitHub</a>
+  <a href="privacy.html">Privacy</a>
+</footer>
+
+</body>
+</html>

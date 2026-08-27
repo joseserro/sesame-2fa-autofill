@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../ui/style.css">
+  <link rel="stylesheet" href="popup.css">
+  <title>Sesame</title>
+</head>
+<body>
+  <div id="app">
+    <!-- Locked state -->
+    <section id="lock-screen" hidden>
+      <div class="lock-art">🔒</div>
+      <h2>Vault locked</h2>
+      <p class="muted">Enter your passphrase to see your codes.</p>
+      <form id="unlock-form">
+        <input type="password" id="passphrase" placeholder="Passphrase" autocomplete="current-password" autofocus>
+        <button type="submit" class="primary">Unlock</button>
+      </form>
+      <p id="unlock-error" class="error-text" hidden></p>
+    </section>
+
+    <!-- Normal state -->
+    <section id="main" hidden>
+      <header>
+        <input type="search" id="search" placeholder="Search codes…" spellcheck="false" autocomplete="off">
+        <button id="lock-btn" class="ghost" title="Lock vault" hidden>🔒</button>
+        <button id="options-btn" class="ghost" title="Settings and import">⚙</button>
+      </header>
+
+      <div id="site-bar" hidden>
+        <span class="tag">THIS SITE</span>
+        <span id="site-host"></span>
+      </div>
+
+      <div id="list"></div>
+
+      <footer>
+        <button id="add-btn" class="ghost">+ Add account</button>
+        <span class="grow"></span>
+        <button id="import-btn" class="ghost">Import</button>
+      </footer>
+    </section>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

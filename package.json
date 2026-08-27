@@ -1,0 +1,15 @@
+{
+  "name": "sesame-2fa-autofill",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Chrome extension for storing 2FA secrets and autofilling OTP codes",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "puppeteer": "^25.9.0"
+  }
+}

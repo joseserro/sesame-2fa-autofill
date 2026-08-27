@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Sesame</title>
+<meta name="description" content="Privacy policy for the Sesame 2FA Autofill Chrome extension. It collects nothing, transmits nothing, and contacts no server.">
+<link rel="icon" href="img/icon128.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero" style="padding:52px 0 44px">
+  <div class="wrap">
+    <h1 style="font-size:34px">Privacy Policy</h1>
+    <p>Sesame — 2FA Autofill</p>
+  </div>
+</header>
+
+<main class="wrap prose" style="padding:52px 0">
+
+  <p style="color:var(--muted)"><strong>Last updated:</strong> 27 August 2026</p>
+
+  <div class="note">
+    <p><strong>The short version.</strong> The extension collects nothing, transmits nothing, and
+    contacts no server. It has no analytics, no telemetry, no crash reporting, and no accounts.
+    Everything it stores stays in your own browser profile.</p>
+  </div>
+
+  <h2>What the extension stores</h2>
+  <p>To generate two-factor authentication codes, the extension stores, <strong>on your device only</strong>:</p>
+  <ul>
+    <li>Your 2FA secret keys, and the issuer, account label, and site domains that go with them</li>
+    <li>Your settings — whether to show the suggestion chip, whether to submit forms automatically, the auto-lock interval</li>
+  </ul>
+  <p>These are held in <code>chrome.storage.local</code>, which is part of your Chrome profile on your own computer.</p>
+
+  <p>If you turn on a passphrase (Settings → Security), the secrets are encrypted with AES-256-GCM
+  using a key derived from your passphrase via PBKDF2-SHA256 (600,000 iterations). The passphrase
+  itself is never stored — not in plain text, not as a hash. While the vault is unlocked, the derived
+  key is held in <code>chrome.storage.session</code>, which lives in memory only and is discarded when
+  Chrome closes.</p>
+
+  <p>The extension does not use <code>chrome.storage.sync</code>, so your secrets are not
+  synchronised between devices by the extension.</p>
+
+  <h2>What the extension does not do</h2>
+  <ul>
+    <li>It makes <strong>no network requests of any kind</strong>. Codes are computed locally with the browser's built-in WebCrypto API.</li>
+    <li>It does <strong>not</strong> collect, transmit, sell, rent, or share any personal data.</li>
+    <li>It does <strong>not</strong> track your browsing, record the pages you visit, or log the sites you use codes on.</li>
+    <li>It contains no third-party libraries, no remote code, and no advertising or analytics SDKs.</li>
+  </ul>
+
+  <h2>Why it asks for the permissions it does</h2>
+  <table>
+    <thead><tr><th>Permission</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>storage</td><td>To keep your codes and settings in your browser profile.</td></tr>
+      <tr><td>contextMenus</td><td>To put “Use OTP code” in the right-click menu.</td></tr>
+      <tr><td>scripting</td><td>To insert a code into the page when you ask for one, and to reach pages that were already open when the extension was installed.</td></tr>
+      <tr><td>alarms</td><td>To run the auto-lock timer.</td></tr>
+      <tr><td>clipboardWrite</td><td>To copy a code when you click one, or when “also copy” is enabled.</td></tr>
+      <tr><td>All websites</td><td>2FA prompts can appear on any site. The extension reads the address of the active tab only to work out which of your saved codes belongs to it, and only writes to a page when you explicitly ask it to fill a code. Page contents are never read, stored, or sent anywhere.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Reading the address of the active tab</h2>
+  <p>To show the right codes for the site you are on, the extension looks at the hostname of the
+  active tab (for example <code>github.com</code>) and compares it against the domains saved on your
+  accounts. This happens entirely inside your browser. The address is not stored, logged, or
+  transmitted.</p>
+
+  <h2>Data retention and deletion</h2>
+  <p>Your data stays until you delete it. Removing an account deletes it immediately.
+  <strong>Settings → Security → Delete all data</strong> erases everything the extension holds.
+  Uninstalling the extension removes its storage along with it.</p>
+  <p>There is nothing to delete on any server, because nothing is ever sent to one.</p>
+
+  <h2>Children</h2>
+  <p>The extension is a general-purpose security tool and is not directed at children.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the date at the top will change with it, and the updated policy will be
+  published at this address.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy: please
+  <a href="https://github.com/joseserro/sesame-2fa-autofill/issues">open an issue on GitHub</a>.</p>
+
+</main>
+
+<footer class="wrap">
+  <span>Sesame — 2FA Autofill</span>
+  <span class="spacer"></span>
+  <a href="index.html">Home</a>
+  <a href="https://github.com/joseserro/sesame-2fa-autofill">GitHub</a>
+</footer>
+
+</body>
+</html>

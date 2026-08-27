@@ -1,0 +1,8 @@
+node_modules/
+
+# Real 2FA secrets — never commit these.
+otp_2fa_codes.txt
+*-backup.json
+otp-migration.txt
+otp-uris.txt
+dist/

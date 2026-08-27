@@ -1,0 +1,106 @@
+:root {
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #4f46e5;
+  --accent-soft: #eef2ff;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1120;
+    --surface: #16203a;
+    --border: #29365a;
+    --text: #e6ecf7;
+    --muted: #94a3b8;
+    --accent: #a5b4fc;
+    --accent-soft: #1e2a52;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: 400 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 22px; }
+
+/* ---------- hero ---------- */
+.hero {
+  background: linear-gradient(140deg, #4f46e5 0%, #7c3aed 55%, #4338ca 100%);
+  color: #fff;
+  padding: 74px 0 66px;
+  text-align: center;
+}
+.hero .mark {
+  width: 62px; height: 62px; border-radius: 16px; margin: 0 auto 20px; display: block;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .3);
+}
+.hero h1 { margin: 0 0 10px; font-size: 42px; font-weight: 680; letter-spacing: -1px; }
+.hero p { margin: 0 auto; max-width: 540px; font-size: 18px; opacity: .9; }
+.hero .cta { margin-top: 28px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.hero .cta a {
+  display: inline-block; padding: 11px 20px; border-radius: 9px; font-weight: 600; font-size: 15px;
+  text-decoration: none; background: #fff; color: #4338ca;
+}
+.hero .cta a.ghost { background: rgba(255, 255, 255, .14); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .34); }
+
+/* ---------- sections ---------- */
+section { padding: 56px 0; }
+section + section { border-top: 1px solid var(--border); }
+h2 { font-size: 25px; font-weight: 660; letter-spacing: -.4px; margin: 0 0 8px; }
+h2 + .lede { color: var(--muted); margin: 0 0 26px; }
+h3 { font-size: 16px; margin: 0 0 4px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+.card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+.shots { display: grid; gap: 18px; }
+.shots img { width: 100%; border-radius: 12px; border: 1px solid var(--border); display: block; }
+.shots figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
+figure { margin: 0; }
+
+code { font-family: var(--mono); font-size: .88em; background: var(--surface); border: 1px solid var(--border); padding: 1px 5px; border-radius: 5px; }
+kbd {
+  font-family: var(--mono); font-size: .82em; background: var(--surface);
+  border: 1px solid var(--border); border-bottom-width: 2px; padding: 2px 6px; border-radius: 5px;
+}
+
+.note { background: var(--accent-soft); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; }
+.note p:last-child { margin-bottom: 0; }
+
+/* ---------- prose (privacy page) ---------- */
+.prose h2 { margin-top: 38px; }
+.prose h2:first-child { margin-top: 0; }
+.prose table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14.5px; }
+.prose th, .prose td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.prose th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.prose td:first-child { white-space: nowrap; font-family: var(--mono); font-size: 13px; }
+.prose ul { padding-left: 20px; }
+.prose li { margin-bottom: 7px; }
+
+/* ---------- footer ---------- */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 30px 0 46px;
+  color: var(--muted);
+  font-size: 14px;
+  display: flex; gap: 18px; flex-wrap: wrap; align-items: center;
+}
+footer .spacer { flex: 1; }
+
+@media (max-width: 620px) {
+  .hero h1 { font-size: 32px; }
+  section { padding: 40px 0; }
+}
