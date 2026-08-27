@@ -334,6 +334,48 @@ async function main() {
     </div>`),
     async () => new Promise((r) => setTimeout(r, 900)));
 
+  // ---- promotional tiles -------------------------------------------------
+  // Optional on the listing, but they are what shows in category and search
+  // placements, so a listing without them looks unfinished.
+  const promo = async (name, width, height, bodyHtml) => {
+    const file = 'store/_frame-' + name.replace('.png', '') + '.html';
+    writeFileSync(path.join(ROOT, file), '<!doctype html><meta charset="utf-8">' +
+      '<style>' + FRAME_CSS +
+      ' body { width:' + width + 'px; height:' + height + 'px; gap:0; }' +
+      '</style><body>' + bodyHtml + '</body>');
+    TEMP.push(file);
+    await page.setViewport({ width, height, deviceScaleFactor: 1 });
+    await page.goto(base + '/' + file, { waitUntil: 'networkidle0' });
+    await new Promise((r) => setTimeout(r, 400));
+    await page.screenshot({ path: path.join(OUT, name) });
+    console.log('   ' + name);
+  };
+
+  await promo('promo-440x280.png', 440, 280, `
+    <div style="text-align:center">
+      <img src="${base}/icons/icon128.png" width="72" height="72"
+           style="border-radius:18px;box-shadow:0 8px 22px rgba(15,23,42,.34)">
+      <div style="font-size:34px;font-weight:680;letter-spacing:-.6px;margin-top:16px">Sesame</div>
+      <div style="font-size:15px;opacity:.85;margin-top:4px">2FA codes, filled by right-click</div>
+    </div>`);
+
+  await promo('promo-1400x560.png', 1400, 560, `
+    <div style="display:flex;align-items:center;gap:70px;width:100%;padding:0 90px">
+      <div style="flex:1">
+        <img src="${base}/icons/icon128.png" width="86" height="86"
+             style="border-radius:22px;box-shadow:0 10px 28px rgba(15,23,42,.34)">
+        <div style="font-size:60px;font-weight:680;letter-spacing:-1.4px;margin-top:22px">Sesame</div>
+        <div style="font-size:23px;opacity:.88;margin-top:12px;line-height:1.45">
+          Right-click any 2FA box and the code<br>for that site goes in.
+        </div>
+        <div style="font-size:16px;opacity:.72;margin-top:18px">
+          Imports straight from Google Authenticator
+        </div>
+      </div>
+      <img src="${base}/docs/img/bare-1-popup.png" style="height:470px;flex:none;
+           border-radius:14px;box-shadow:0 26px 70px rgba(15,23,42,.45)">
+    </div>`);
+
   await browser.close();
   server.close();
 
